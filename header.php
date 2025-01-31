@@ -10,10 +10,10 @@
 <body>
     <header>
     <?php
-// Inclure le fichier contenant la fonction
+
 require_once 'navprincipale.php';
 
-// Appeler la fonction pour générer le menu
+
 generateMenu([
     'Accueil' => 'index.php',
     'Contact' => 'contact.php'
