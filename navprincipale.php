@@ -11,4 +11,5 @@ function generateMenu($links) {
     }
     
     echo '</ul></nav>';
+
 }

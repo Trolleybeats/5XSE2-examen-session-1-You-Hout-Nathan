@@ -1,14 +1,14 @@
-<?php 
-$pageTitre="Contact";
-$metaDescription="Vous êtes sur la page de contact";
-require "header.php";
+<?php
 
 require 'traiter-formulaire.php';
 
 $erreurs = []; 
 $valeursEchappees = [];
+$message = $messageErreur = "";
+$formSoumis = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $formSoumis = true;
     list($erreurs, $valeursEchappees) = traiterFormulaire($_POST);
 }
 
@@ -19,20 +19,17 @@ else{
     $messageErreur="Echec d'envoi du formulaire";
 }
 
-if (isset($message)) {
-    echo "<p>" . $message . "</p>";
-}
-else{
-    echo "<p>" . $messageErreur . "</p>";
-}
+$pageTitre="Contact";
+$metaDescription="Vous êtes sur la page de contact";
+require "header.php";
 ?>
 
-
+<main>
 
 <h1>Contact</h1>
 
 <p><form method="post">
-<label class="required" for="nom">Votre nom :</label>
+<label for="nom">Votre nom :</label>
 <input name="nom" id="nom" type="text"  minlength="2" maxlength="255" value="<?= $valeursEchappees['nom'] ?? '' ?>" minlength="2" maxlength="50" required>
     <?php 
     if (isset($erreurs['nom'])) {
@@ -41,14 +38,9 @@ else{
     ?>
 
 <label for="prenom">Votre prénom :</label>
-<input name="prenom" id="prenom" type="text" value="<?= $valeursEchappees['prenom'] ?? '' ?>" minlength="2" maxlength="255">
-    <?php 
-    if (isset($erreurs['prenom'])) {
-        echo $erreurs['prenom'];
-    }
-    ?>
+<input name="prenom" id="prenom" type="text" value=" " maxlength="255">
 
-<label class="required"  for="email">Votre email :</label>
+<label  for="email">Votre email :</label>
 <input name="email" id="email" type="email" value="<?= $valeursEchappees['email'] ?? '' ?>" required>
     <?php 
     if (isset($erreurs['email'])) {
@@ -56,7 +48,7 @@ else{
     }
     ?>
 
-<label class="required" for="message">Message :</label>
+<label for="message">Message :</label>
 <textarea name="message" id="message"  minlength="10" maxlength="3000" required><?= $valeursEchappees['message'] ?? '' ?></textarea>
     <?php 
     if (isset($erreurs['message'])) {
@@ -71,5 +63,14 @@ else{
 
 
 <?php
+if ($formSoumis) {
+    if (!empty($message)) {
+        echo "<p>" . $message . "</p>";
+        require_once "mail.php";
+    } else {
+        echo "<p>" . $messageErreur . "</p>";
+    }
+}
+
 require "footer.php"
 ?>

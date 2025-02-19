@@ -1,5 +1,9 @@
-h1{
-    color:red;
+header{
+    padding:10px;
+    border-bottom: 1px solid black;
+}
+main{
+    padding-top: 2vh;
 }
 
 li{
@@ -7,8 +11,29 @@ li{
     padding:1.2em;
 }
 
-.required{
+h1{
+    padding-left:20px;
+    padding-bottom: 20px;
+}
+
+form{
+    padding-left:20px;
+    padding-bottom: 20px;
+}
+label:has(+ :required)::before {
+    content: '*';
     color:red;
+}
+form input:last-child{
+    margin-top: 20px;
+
+}
+
+footer{
+    padding-left:20px;
+    padding-top: 20px;
+    margin-top:20px;
+    border-top: 1px solid black;
 }
 
 .active a {

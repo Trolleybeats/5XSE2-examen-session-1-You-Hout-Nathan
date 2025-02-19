@@ -15,10 +15,6 @@ function traiterFormulaire($post) {
         $erreurs['nom'] = "<p>Le nom doit contenir entre 2 et 50 caractères!</p>";
     };
 
-    if (mb_strlen($prenom) < 2 || mb_strlen($prenom) > 50) {
-        $erreurs['prenom'] = "<p>Le prénom doit contenir entre 2 et 255 caractères!</p>";
-    };
-
     if ($email == '') {
         $erreurs['email'] = "<p>Le mail est requis!</p>";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
