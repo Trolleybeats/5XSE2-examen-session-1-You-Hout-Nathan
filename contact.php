@@ -1,9 +1,8 @@
 <?php
 
-require 'traiter-formulaire.php';
+require (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR .'traiter-formulaire.php';
 
-$erreurs = []; 
-$valeursEchappees = [];
+
 $message = $messageErreur = "";
 $formSoumis = false;
 
@@ -28,9 +27,9 @@ require "header.php";
 
 <h1>Contact</h1>
 
-<p><form method="post">
+<form method="post">
 <label for="nom">Votre nom :</label>
-<input name="nom" id="nom" type="text"  minlength="2" maxlength="255" value="<?= $valeursEchappees['nom'] ?? '' ?>" minlength="2" maxlength="50" required>
+<input name="nom" id="nom" type="text" value="<?= $valeursEchappees['nom'] ?? '' ?>" minlength="2" maxlength="50" required>
     <?php 
     if (isset($erreurs['nom'])) {
         echo $erreurs['nom'];
@@ -38,7 +37,7 @@ require "header.php";
     ?>
 
 <label for="prenom">Votre prénom :</label>
-<input name="prenom" id="prenom" type="text" value=" " maxlength="255">
+<input name="prenom" id="prenom" type="text" value="<?= $valeursEchappees['prenom'] ?? '' ?>" maxlength="255">
 
 <label  for="email">Votre email :</label>
 <input name="email" id="email" type="email" value="<?= $valeursEchappees['email'] ?? '' ?>" required>
@@ -55,8 +54,6 @@ require "header.php";
         echo $erreurs['message'];
     }
     ?>
-
-</p>
 
 <input type="submit" value="Envoyer">
 </form>

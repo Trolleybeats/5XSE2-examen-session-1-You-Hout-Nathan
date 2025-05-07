@@ -1,3 +1,4 @@
+/*Semantique*/
 header{
     padding:10px;
     border-bottom: 1px solid black;
@@ -5,39 +6,44 @@ header{
 main{
     padding-top: 2vh;
 }
-
-li{
-    display: inline;
-    padding:1.2em;
-}
-
-h1{
-    padding-left:20px;
-    padding-bottom: 20px;
-}
-
-form{
-    padding-left:20px;
-    padding-bottom: 20px;
-}
-label:has(+ :required)::before {
-    content: '*';
-    color:red;
-}
-form input:last-child{
-    margin-top: 20px;
-
-}
-
 footer{
     padding-left:20px;
     padding-top: 20px;
     margin-top:20px;
     border-top: 1px solid black;
 }
-
+/*Navigation*/
+li{
+    padding:1.2em;
+}
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+a:hover{
+    font-weight: bold;
+    color: red;
+}
 .active a {
     font-weight: bold;
     color: red;
     text-decoration: none;
+}
+/*Formulaire*/
+form{
+    padding-left:20px;
+    padding-bottom: 20px;
+}
+label:has(+ :required)::before {
+    content: '* ';
+    color:red;
+}
+label{
+    display: block;
+}
+/*Texte*/
+h1{
+    padding-left:20px;
+    padding-bottom: 20px;
 }
