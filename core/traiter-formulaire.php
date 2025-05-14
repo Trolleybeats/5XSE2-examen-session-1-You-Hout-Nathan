@@ -9,6 +9,7 @@ function traiterFormulaire($post) {
     $email = trim($post['email'] ?? '');
     $message = trim($post['message'] ?? '');
 
+    try{
     if ($nom == '') {
         $erreurs['nom'] = "<p>Le nom est requis!</p>";
     } elseif (mb_strlen($nom) < 2 || mb_strlen($nom) > 50) {
@@ -36,7 +37,13 @@ function traiterFormulaire($post) {
     }
 
     return [$erreurs, $valeursEchappees];
-}
+}catch (PDOException $e) {
+    gererExceptions($e);
+    return false;
+} finally {
+    // Libérer la connexion
+    $pdo = null;
+}}
 
 // ============================
 // TRAITEMENT INSCRIPTION
@@ -46,6 +53,7 @@ function traiterFormulaireInscription($post, $pdo) {
     $erreurs = [];
     $valeursEchappees = [];
 
+    try{
     $pseudo = trim($post['inscription_pseudo'] ?? '');
     $email = trim($post['inscription_email'] ?? '');
     $motDePasse = trim($post['inscription_motDePasse'] ?? '');
@@ -99,5 +107,11 @@ function traiterFormulaireInscription($post, $pdo) {
     }
 
     return [$erreurs, $valeursEchappees];
-}
+}catch (PDOException $e) {
+    gererExceptions($e);
+    return false;
+} finally {
+    // Libérer la connexion
+    $pdo = null;
+}}
 ?>

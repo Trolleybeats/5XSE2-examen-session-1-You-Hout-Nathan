@@ -5,10 +5,17 @@ require "header.php";
 require_once (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionBdd.php';
 require (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR .'traiter-formulaire.php';
 
+try{
 $pdo = obtenirConnexionBdd();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     [$erreurs, $valeurs] = traiterFormulaireInscription($_POST, $pdo);
+}}catch (PDOException $e) {
+    gererExceptions($e);
+    return false;
+} finally {
+    // Libérer la connexion
+    $pdo = null;
 }
 ?>
 

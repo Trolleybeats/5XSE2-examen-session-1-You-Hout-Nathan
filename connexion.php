@@ -3,7 +3,9 @@ $pageTitre="Connexion";
 $metaDescription="Vous êtes sur la page de connexion";
 require "header.php";
 require_once (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionBdd.php';
+require_once (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'gestionErreur.php';
 
+try{
 $pdo = obtenirConnexionBdd();
 
 $message = "";
@@ -26,7 +28,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $message = "<p style='color:red;'>Identifiants incorrects. Veuillez réessayer.</p>";
         }
     }
+}}catch (PDOException $e) {
+    gererExceptions($e);
+    return false;
+} finally {
+    // Libérer la connexion
+    $pdo = null;
 }
+
 ?>
 
 <main>

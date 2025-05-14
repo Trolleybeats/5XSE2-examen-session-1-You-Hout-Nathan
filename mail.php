@@ -3,6 +3,7 @@ $expediteur= "Page Contact <forum@framework.be>";
 $destinataire = "nathan.yh@hotmail.com";
 $sujet = "Projet Framework - Formulaire de contact";
 
+try{
 $entetes = [
     "From: " . $expediteur,
     "Reply-To: " . $_POST['email'],
@@ -17,6 +18,13 @@ $email = htmlspecialchars(trim($_POST['email'] ?? ''));
 $message = nl2br(htmlspecialchars(trim($_POST['message'] ?? '')));
 
 ob_start();
+}catch (PDOException $e) {
+    gererExceptions($e);
+    return false;
+} finally {
+    // Libérer la connexion
+    $pdo = null;
+}
 ?>
 <html>
     <body>
