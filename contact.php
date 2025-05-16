@@ -2,7 +2,7 @@
 
 require (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR .'traiter-formulaire.php';
 
-try{
+
 $message = $messageErreur = "";
 $formSoumis = false;
 
@@ -16,12 +16,6 @@ if (empty($erreurs)) {
 }
 else{
     $messageErreur="Echec d'envoi du formulaire";
-}}catch (PDOException $e) {
-    gererExceptions($e);
-    return false;
-} finally {
-    // Libérer la connexion
-    $pdo = null;
 }
 
 $pageTitre="Contact";

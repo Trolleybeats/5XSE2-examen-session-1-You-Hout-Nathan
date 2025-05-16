@@ -1,3 +1,5 @@
+<!--En cours d'implémentation dans les autres fichiers-->
+
 <?php
 require_once dirname(__DIR__) . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
 
