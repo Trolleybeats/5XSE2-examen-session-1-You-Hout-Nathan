@@ -23,7 +23,6 @@ $metaDescription="Vous êtes sur la page de contact";
 require "header.php";
 ?>
 
-<main>
 
 <h1>Contact</h1>
 

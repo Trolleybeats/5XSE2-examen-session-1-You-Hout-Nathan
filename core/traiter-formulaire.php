@@ -45,6 +45,7 @@ function traiterFormulaire($post) {
 function traiterFormulaireInscription($post, $pdo) {
     $erreurs = [];
     $valeursEchappees = [];
+    $inscriptionReussie = false;
 
     try{
     $pseudo = trim($post['inscription_pseudo'] ?? '');
@@ -92,6 +93,8 @@ function traiterFormulaireInscription($post, $pdo) {
         $motDePasseHash = password_hash($motDePasse, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO t_utilisateur_uti (uti_pseudo, uti_email, uti_motdepasse) VALUES (?, ?, ?)");
         $stmt->execute([$pseudo, $email, $motDePasseHash]);
+
+        $inscriptionReussie = true;
     } else {
         $valeursEchappees = [
             'pseudo' => htmlspecialchars($pseudo),
@@ -99,7 +102,7 @@ function traiterFormulaireInscription($post, $pdo) {
         ];
     }
 
-    return [$erreurs, $valeursEchappees];
+    return [$erreurs, $valeursEchappees, $inscriptionReussie];
 }catch (PDOException $e) {
     gererExceptions($e);
     return false;

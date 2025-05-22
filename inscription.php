@@ -7,14 +7,19 @@ require (__DIR__) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR .'traiter
 
 $pdo = obtenirConnexionBdd();
 
+$erreurs = [];
+$valeurs = [];
+$inscriptionReussie = false;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    [$erreurs, $valeurs] = traiterFormulaireInscription($_POST, $pdo);
+    [$erreurs, $valeurs, $inscriptionReussie] = traiterFormulaireInscription($_POST, $pdo);
 }
+if ($inscriptionReussie && empty($erreurs)) {
+        header("Location: connexion.php?inscription=1");
+        exit;
+    }
 ?>
 
-
-
-<main>
 
 <h1> Inscription </h1>
 
@@ -36,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 
 <label  for="inscription_motDePasse">Votre mot de passe :</label>
-<input name="inscription_motDePasse" id="inscription_motDePasse" type="text" value=" " minlength="8" maxlength="72" required>
+<input name="inscription_motDePasse" id="inscription_motDePasse" type="password" value="" minlength="8" maxlength="72" required>
     <?php 
     if (isset($erreurs['motDePasse'])) {
         echo $erreurs['motDePasse'];

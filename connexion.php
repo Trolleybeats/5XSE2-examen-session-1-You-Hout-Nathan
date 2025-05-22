@@ -1,4 +1,17 @@
 <?php 
+session_start();
+
+// Rediriger vers profil si déjà connecté
+if (isset($_SESSION['utilisateurId'])) {
+    header("Location: profil.php");
+    exit;
+}
+
+$message = "";
+if (isset($_GET['deconnexion']) && $_GET['deconnexion'] == 1) {
+    $message = "<p style='color:green;'>Vous avez été déconnecté avec succès.</p>";
+}
+
 $pageTitre="Connexion";
 $metaDescription="Vous êtes sur la page de connexion";
 require "header.php";
@@ -18,15 +31,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($pseudo === '' || $motDePasse === '') {
         $message = "<p style='color:red;'>Tous les champs sont obligatoires.</p>";
     } else {
-        $stmt = $pdo->prepare("SELECT uti_motdepasse FROM t_utilisateur_uti WHERE uti_pseudo = ?");
+        $stmt = $pdo->prepare("SELECT uti_id, uti_motdepasse FROM t_utilisateur_uti WHERE uti_pseudo = ?");
         $stmt->execute([$pseudo]);
         $utilisateur = $stmt->fetch();
 
-        if ($utilisateur && password_verify($motDePasse, $utilisateur['uti_motdepasse'])) {
-            $message = "<p style='color:green;'>Connexion réussie ! Bienvenue, $pseudo.</p>";
-        } else {
-            $message = "<p style='color:red;'>Identifiants incorrects. Veuillez réessayer.</p>";
-        }
+if ($utilisateur && password_verify($motDePasse, $utilisateur['uti_motdepasse'])) {
+    $_SESSION['utilisateurId'] = $utilisateur['uti_id']; // ✅ enregistrer l'utilisateur
+    header("Location: profil.php"); 
+    exit;
+} else {
+    $message = "<p style='color:red;'>Identifiants incorrects. Veuillez réessayer.</p>";
+}
+
     }
 }}catch (PDOException $e) {
     gererExceptions($e);
@@ -38,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 ?>
 
-<main>
 
 <h1> Connexion </h1>
 
@@ -49,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <input name="connexion_pseudo" id="connexion_pseudo" type="text" value="<?= htmlspecialchars($pseudo) ?>" minlength="2" maxlength="255" required>
 
 <label  for="connexion_motDePasse">Votre mot de passe :</label>
-<input name="connexion_motDePasse" id="connexion_motDePasse" type="text" value=" " minlength="8" maxlength="72" required>
+<input name="connexion_motDePasse" id="connexion_motDePasse" type="password" value="" minlength="8" maxlength="72" required>
 
 <input type="submit" value="Envoyer">
 </form>

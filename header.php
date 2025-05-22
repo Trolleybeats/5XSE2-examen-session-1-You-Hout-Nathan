@@ -19,7 +19,8 @@ require_once 'navprincipale.php';
 generateMenu([
     'Accueil' => 'index.php',
     'Contact' => 'contact.php',
-    'Connexion' => 'connexion.php'
+    'Connexion' => 'connexion.php',
+    'Profil' => 'profil.php'
 ]);
 ?>
         </nav>
